@@ -1,40 +1,40 @@
-Buildroot is a simple, efficient and easy-to-use tool to generate embedded
-Linux systems through cross-compilation.
+### Set Up
 
-The documentation can be found in docs/manual. You can generate a text
-document with 'make manual-text' and read output/docs/manual/manual.text.
-Online documentation can be found at http://buildroot.org/docs.html
+1. Get buildroot & build for qemu emulator
 
-To build and use the buildroot stuff, do the following:
-
-1) run 'make menuconfig'
-2) select the target architecture and the packages you wish to compile
-3) run 'make'
-4) wait while it compiles
-5) find the kernel, bootloader, root filesystem, etc. in output/images
-
-You do not need to be root to build or run buildroot.  Have fun!
-
-Buildroot comes with a basic configuration for a number of boards. Run
-'make list-defconfigs' to view the list of provided configurations.
-
-Please feed suggestions, bug reports, insults, and bribes back to the
-buildroot mailing list: buildroot@buildroot.org
-You can also find us on #buildroot on OFTC IRC.
-
-If you would like to contribute patches, please read
-https://buildroot.org/manual.html#submitting-patches
-
-### Set up this example 
-
-1. Install & build for qemu emulator
+There is default config files available for many targets including qemu
 ```shell
 wget https://buildroot.org/downloads/buildroot-2023.02.tar.gz
 cd buildroot-2023.02/
 make qemu_arm_versatile_defconfig
 make
 ```
-2. Run and log in as root, with no password
+
+2. You should have qemu emulator installed on your system
+for me I built it from source code following these instructions
+
+```shell
+	wget https://download.qemu.org/qemu-8.0.0-rc2.tar.xz
+	tar xvJf qemu-8.0.0-rc2.tar.xz
+	cd qemu-8.0.0-rc2
+	./configure
+	make
+```
+### OR 
+I think you can work with the one available on ubuntu packages, it is not the 
+latest version but for this example it should work fine isa.
+to search for the available package 
+```shell
+apt-cache search qemu-system-arm
+```
+to install run,
+`sudo apt-get update`
+`sudo apt-get install qemu-system-arm`
+check your installation 
+`qemu-system-arm --help`
+you should get lots of info printed, don't read them haha..^--^
+
+2. Run
 ```shell
 qemu-system-arm -M versatilepb -m 256 \
 -kernel output/images/zImage \
@@ -43,6 +43,7 @@ qemu-system-arm -M versatilepb -m 256 \
 -append "root=/dev/sda console=ttyAMA0,115200" \
 -serial stdio -net nic,model=rtl8139 -net user
 ```
+log in as root, with no password.
 ![shot1](./buildroot-quickstart/Screenshot%20from%202023-04-17%2014-53-30.png)
 
 [Watch video](./buildroot-quickstart/buildroot-quickstart.mkv)
